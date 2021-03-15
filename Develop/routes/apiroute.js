@@ -32,9 +32,20 @@ router.get("/api/workouts", (req, res) => {
 });
 
 // ADD EXERCISE
-// router.put("/api/workouts/:id", (req, res) => {
-
-// });
+router.put("/api/workouts/:id", ({body, params}, res) => {
+    db.Workout.findOneAndUpdate(
+        {__id: params.id},
+        {
+            $push: {exercises: body}
+        },
+        { new: true }
+    ).then(dbWorkout => {
+        res.json(dbWorkout);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+});
 
 // CREATE NEW WORKOUT
 // router.post("/api/workouts", ({ body }, res) => {
